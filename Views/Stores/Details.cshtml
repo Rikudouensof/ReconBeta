@@ -1,0 +1,37 @@
+﻿@model ReconBeta.Models.Stores
+
+@{
+  ViewData["Title"] = "Details";
+  Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Stores</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GooglePlayStore)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GooglePlayStore)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MicrosoftStore)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MicrosoftStore)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AppStore)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AppStore)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
