@@ -19,5 +19,7 @@ namespace ReconBeta.Data
     public DbSet<GalaryImages> GalaryImages { get; set; }
 
     public DbSet<Stores> Stores { get; set; }
+
+    public DbSet<Emergency_Numbers> Emergency_Numbers { get; set; }
   }
 }

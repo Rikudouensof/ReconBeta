@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="ApiClasses\General\" />
-    <Folder Include="ControllersApi\" />
     <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
