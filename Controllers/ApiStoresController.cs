@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,23 +13,25 @@ namespace ReconBeta.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StoresApiController : ControllerBase
+
+  [Authorize]
+  public class ApiStoresController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public StoresApiController(ApplicationDbContext context)
+        public ApiStoresController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/StoresApi
+        // GET: api/ApiStores
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Stores>>> GetStores()
         {
             return await _context.Stores.ToListAsync();
         }
 
-        // GET: api/StoresApi/5
+        // GET: api/ApiStores/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Stores>> GetStores(int id)
         {
@@ -42,7 +45,7 @@ namespace ReconBeta.Controllers
             return stores;
         }
 
-        // PUT: api/StoresApi/5
+        // PUT: api/ApiStores/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStores(int id, Stores stores)
@@ -73,7 +76,7 @@ namespace ReconBeta.Controllers
             return NoContent();
         }
 
-        // POST: api/StoresApi
+        // POST: api/ApiStores
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Stores>> PostStores(Stores stores)
@@ -84,7 +87,7 @@ namespace ReconBeta.Controllers
             return CreatedAtAction("GetStores", new { id = stores.Id }, stores);
         }
 
-        // DELETE: api/StoresApi/5
+        // DELETE: api/ApiStores/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStores(int id)
         {

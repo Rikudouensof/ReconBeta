@@ -21,5 +21,7 @@ namespace ReconBeta.Data
     public DbSet<Stores> Stores { get; set; }
 
     public DbSet<Emergency_Numbers> Emergency_Numbers { get; set; }
+
+    public DbSet<ReconBeta.Models.UserImages> UserImages { get; set; }
   }
 }

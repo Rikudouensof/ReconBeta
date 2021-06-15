@@ -1,22 +1,17 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using ReconBeta.Data;
 using ReconBeta.Models;
 using ReconBeta.Services.ApiServices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ReconBeta
 {
@@ -32,6 +27,7 @@ namespace ReconBeta
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+     
       //EF and Context
       services.AddDbContext<ApplicationDbContext>(options =>
           options.UseSqlServer(
@@ -43,6 +39,38 @@ namespace ReconBeta
          .AddRoles<IdentityRole>()
           .AddEntityFrameworkStores<ApplicationDbContext>()
          .AddDefaultTokenProviders();
+
+
+      var key = Encoding.UTF8.GetBytes(Configuration["Jwt:Secret"]);
+
+      services.AddAuthentication(x =>
+      {
+        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+      })
+        .AddJwtBearer(x =>
+        {
+          x.RequireHttpsMetadata = false;
+          x.SaveToken = true;
+          x.TokenValidationParameters = new TokenValidationParameters
+          {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidIssuers = new string[] { Configuration["Jwt:Issuer"] },
+            ValidAlgorithms = new string[] { Configuration["Jwt:Issuer"] },
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true
+          };
+        });
+
+
+
+
+
+
+
+
 
 
       ////Authentication
@@ -69,7 +97,12 @@ namespace ReconBeta
 
       services.AddScoped<IUserService, UserService>();
       services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
       services.AddRazorPages();
+      //services.AddSwaggerGen(c =>
+      //{
+      //  c.SwaggerDoc("v1", new OpenApiInfo { Title = "ReconBeta", Version = "v1" });
+      //});
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,7 +119,12 @@ namespace ReconBeta
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
       }
-      
+
+      ////app.UseSwagger();
+      ////app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ReconBeta v1"));
+      ////app.UseDeveloperExceptionPage();
+
+
       app.UseHttpsRedirection();
       app.UseStaticFiles();
 

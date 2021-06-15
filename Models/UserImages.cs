@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,7 +10,9 @@ namespace ReconBeta.Models
   public class UserImages
   {
     [Key]
-    public int Id { get; set; }
+    public string Id { get; set; }
+
+    public IFormFile UploadFile { get; set; }
 
   }
 }

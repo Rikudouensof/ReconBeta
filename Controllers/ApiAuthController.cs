@@ -9,6 +9,7 @@ using ReconBeta.Models;
 using ReconBeta.Services.ApiServices;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -25,7 +26,8 @@ namespace ReconBeta.Controllers
     private readonly SignInManager<User> _signInManager;
     private readonly IConfiguration _configuration;
     private readonly ApplicationDbContext _db;
-    public User User { get; set; }
+    public GenerateJWT generateJWT;
+    public User userp { get; set; }
     public ApiAuthController(SignInManager<User> signInManager, IUserService userService, IConfiguration configuration, ApplicationDbContext db)
     {
       _signInManager = signInManager;
@@ -64,13 +66,13 @@ namespace ReconBeta.Controllers
         if (result.Succeeded)
         {
           var user = _db.Users.Where(m => m.Email == apiLogin.Email).FirstOrDefault();
-        
-          var token = GenerateJWTToken();
-          return Ok("User login Sucessfull");
+          userp = user;
+          var token = generateJWT.GenerateJWTToken(user);
+          return Ok(token);
         }
         if (result.RequiresTwoFactor)
         {
-          return BadRequest("Locked by two factor authentication, use the web instead and stay tuned for non beta version");
+          return BadRequest("Locked by two factor authentication, use the web instead and stay tuned for a non beta version");
         }
         if (result.IsLockedOut)
         {
@@ -82,19 +84,11 @@ namespace ReconBeta.Controllers
           return BadRequest("Invalid login attempt");
         }
       }
+      return BadRequest("Invalid login attempt");
     }
 
-    private string GenerateJWTToken(User user)
-    {
-      var stringKey = Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]);
 
-      var claims = new Claim[]
-      {
-        new Claim(ClaimTypes.Name, user.Id.ToString()),
-        new Claim(ClaimTypes.Name, user.UserName)
-      };
+   
 
-      var credentials = new SigningCredentials(new SymmetricSecurityKey(stringKey), SecurityAlgorithms.HmacSha256);
-    }
   }
 }
