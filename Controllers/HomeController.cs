@@ -4,8 +4,6 @@ using Microsoft.Extensions.Logging;
 using ReconBeta.Data;
 using ReconBeta.Models;
 using ReconBeta.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,11 +12,11 @@ namespace ReconBeta.Controllers
 {
   public class HomeController : Controller
   {
-        private readonly UserManager<User> _userManager;
+    private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
     private readonly ApplicationDbContext db;
     private readonly ILogger<HomeController> _logger;
-    
+
     public HomeController(ILogger<HomeController> logger, ApplicationDbContext _db, UserManager<User> userManager,
             SignInManager<User> signInManager)
     {
@@ -32,7 +30,7 @@ namespace ReconBeta.Controllers
     {
       if (User.IsInRole("Admin"))
       {
-        return RedirectToAction("Index","ContactUs");
+        return RedirectToAction("Index", "ContactUs");
       }
       GeneralViewModel generalViewModel = new GeneralViewModel()
       {

@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using ReconBeta.Constants;
 using ReconBeta.Data;
 using ReconBeta.Models;
+using ReconBeta.ViewModels;
 
 namespace ReconBeta.Controllers
 {
@@ -60,7 +61,7 @@ namespace ReconBeta.Controllers
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(GalaryImages galaryImages)
+    public async Task<IActionResult> Create(GallaryImageViewModel galaryImages)
     {
       try
       {

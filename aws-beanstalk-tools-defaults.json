@@ -8,7 +8,7 @@
     "environment"    : "ReconBeta-test",
     "enable-xray"    : false,
     "enhanced-health-type" : "basic",
-    "additional-options"   : "\"aws:autoscaling:launchconfiguration,SecurityGroups\"=\"sg-989d5d9f\";\"aws:ec2:vpc,Subnets\"=\"subnet-fc6f179a\"",
+    "additional-options"   : "",
     "solution-stack"       : "64bit Amazon Linux 2 v2.2.0 running .NET Core",
     "environment-type"     : "SingleInstance",
     "cname"                : "reconbeta-test",
